@@ -1,0 +1,15 @@
+﻿﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Interval Checker";
+}
+
+<h2>Check numbers in Interval  (-5, 5]</h2>
+<form asp-controller="Interval" asp-action="Analyze" method="post">
+    <label for="x">Enter numbers:</label>
+    <input type="text" name="numbers" id="numbers"><br>
+    <button type="submit">Check</button>
+</form>
+@if (ViewBag.Interval != null)
+{
+    <p>Numbers in Interval: @ViewBag.Interval</p>
+}

@@ -1,0 +1,15 @@
+﻿﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Number Checker";
+}
+
+<h2>Check numbers is odd and 3 digits </h2>
+<form asp-controller="Odd" asp-action="Analyze" method="post">
+    <label for="x">Enter number:</label>
+    <input type="text" name="number" id="number"><br>
+    <button type="submit">Check</button>
+</form>
+@if (ViewBag.Result != null)
+{
+    <p>Result: @ViewBag.Result</p>
+}
