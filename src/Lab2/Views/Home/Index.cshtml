@@ -1,0 +1,90 @@
+﻿@model Lab2.Models.GroupModel
+@{
+    ViewData["Title"] = "Список студентов";
+}
+
+<form method="post" asp-action="AddStudent" id="studentForm" class="w-50 mx-auto">
+    <div class="form-group">
+        <label asp-for="NewStudent.Surname">Фамилия:</label>
+        <input asp-for="NewStudent.Surname" class="form-control" type="text" required>
+        <span asp-validation-for="NewStudent.Surname" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NewStudent.Name">Имя:</label>
+        <input asp-for="NewStudent.Name" class="form-control" type="text" required>
+        <span asp-validation-for="NewStudent.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NewStudent.Patronymic">Отчество (опционально):</label>
+        <input asp-for="NewStudent.Patronymic" class="form-control" type="text">
+        <span asp-validation-for="NewStudent.Patronymic" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NewStudent.GroupName">Номер группы:</label>
+        <input asp-for="NewStudent.GroupName" class="form-control" type="text" required>
+        <span asp-validation-for="NewStudent.GroupName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NewStudent.Phone">Номер телефона:</label>
+        <input asp-for="NewStudent.Phone" class="form-control" type="tel" required>
+        <span asp-validation-for="NewStudent.Phone" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NewStudent.Email">Email:</label>
+        <input asp-for="NewStudent.Email" class="form-control" type="email" required>
+        <span asp-validation-for="NewStudent.Email" class="text-danger"></span>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <button class="btn btn-outline-primary my-2" type="submit">Добавить ученика</button>
+    </div>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <div class="alert alert-success" role="alert">
+        @Model.Message
+    </div>
+}
+
+@if (Model.ShowGroups)
+{
+    <div class="mt-5">
+        <h2>Список групп</h2>
+        @foreach (var group in Model.Groups)
+        {
+            <h3>Группа: @group.Name</h3>
+            <ul>
+                @foreach (var student in group.Students)
+                {
+                    <li>@FormatStudent(student)</li>
+                }
+            </ul>
+        }
+    </div>
+}
+
+@if (Model.CurrentGroup.Students.Count > 0 && !Model.ShowGroups)
+{
+    <div class="mt-5">
+        <h3>Группа: @Model.CurrentGroup.Name</h3>
+        <ul>
+            @foreach (var student in Model.CurrentGroup.Students)
+            {
+                <li>@FormatStudent(student)</li>
+            }
+        </ul>
+    </div>
+}
+
+@functions {
+    public string FormatStudent(Student student)
+    {
+        return $"{student.Surname} {student.Name} {student.Patronymic} (Телефон: {student.Phone} / Почта: {student.Email})";
+    }
+}
